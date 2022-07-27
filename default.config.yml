@@ -1,0 +1,89 @@
+---
+downloads: ~/.ansible-downloads/
+
+homebrew_installed_packages:
+  - asdf
+  - aspell
+  - bat
+  - cmake
+  - coreutils
+  - dockutil
+  - fd
+  - ffmpeg
+  - fish
+  - fzf
+  - gh
+  - htop
+  - java
+  - just
+  - jq
+  - mutt
+  - neovim
+  - offlineimap
+  - openssl@3
+  - parallel
+  - pngcrush
+  - psgrep
+  - r
+  - ripgrep
+  - sqlite
+  - starship
+  - stow
+  - svn
+  - tmux
+  - trash
+  - tree
+  - urlview
+  - w3m
+  - wget
+  - zopfli
+homebrew_cask_apps:
+  - cleanmymac
+  - docker
+  - dropbox
+  - evernote
+  - font-fira-code
+  - font-fira-code-nerd-font
+  - font-fira-mono
+  - font-fira-mono-for-powerline
+  - font-fira-mono-nerd-font
+  - font-fira-sans
+  - font-fira-sans-condensed
+  - font-fira-sans-extra-condensed
+  - font-inconsolata-dz-for-powerline
+  - font-raleway
+  - google-chrome
+  - iterm2
+  - pycharm-ce
+  - rectangle
+  - signal
+  - spotify
+homebrew_taps:
+  - homebrew/core
+  - homebrew/cask
+  - homebrew/cask-fonts
+homebrew_cask_appdir: /Applications
+homebrew_upgrade_all_packages: true
+
+configure_dock: true
+dockitems_remove:
+  - Launchpad
+  - TV
+  - Safari
+  - Maps
+  - Mail
+  - Photos
+  - FaceTime
+  - Calendar
+  - Contacts
+  - Reminders
+  - Notes
+  - Spotify
+  - Podcasts
+  - News
+  - Keynote
+  - Numbers
+  - Pages
+  - App Store
+  - Music
+dockitems_persist: []

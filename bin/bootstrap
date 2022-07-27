@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# May need this to fix pip3 install
+# See: https://stackoverflow.com/a/69685100
+softwareupdate -i "Command Line Tools for Xcode-13.0"
+softwareupdate --install-rosetta
+sudo pip3 install --upgrade pip
+pip3 install ansible
