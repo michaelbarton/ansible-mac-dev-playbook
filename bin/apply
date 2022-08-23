@@ -6,4 +6,4 @@ set -o errexit
 PATH=${HOME}/Library/Python/3.8/bin:${PATH}
 
 ansible-galaxy install -r requirements.yml
-ansible-playbook -i "localhost," -c local ansible_osx.yml --ask-become-pass
+ansible-playbook -i "localhost," -c local ansible_osx.yml --ask-become-pass $@

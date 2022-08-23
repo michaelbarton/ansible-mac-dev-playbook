@@ -7,7 +7,10 @@ homebrew_installed_packages:
   - bat
   - cmake
   - coreutils
+  - docker
+  - docker-compose
   - dockutil
+  - exa
   - fd
   - ffmpeg
   - fish
@@ -15,8 +18,8 @@ homebrew_installed_packages:
   - gh
   - htop
   - java
-  - just
   - jq
+  - just
   - mutt
   - neovim
   - offlineimap
@@ -39,7 +42,6 @@ homebrew_installed_packages:
   - zopfli
 homebrew_cask_apps:
   - cleanmymac
-  - docker
   - dropbox
   - evernote
   - font-fira-code
@@ -52,7 +54,6 @@ homebrew_cask_apps:
   - font-fira-sans-extra-condensed
   - font-inconsolata-dz-for-powerline
   - font-raleway
-  - google-chrome
   - iterm2
   - pycharm-ce
   - rectangle
@@ -86,4 +87,9 @@ dockitems_remove:
   - Pages
   - App Store
   - Music
-dockitems_persist: []
+dockitems_persist:
+  - name: Spotify
+    path: "/Applications/Spotify.app/"
+  - name: iTerm2
+    path: "/Applications/iTerm.app/"
+

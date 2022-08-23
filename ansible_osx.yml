@@ -16,3 +16,18 @@
       tags: ['homebrew']
     - role: geerlingguy.mac.dock
       tags: ['dock']
+
+  tasks:
+
+    - name: Clone dotfiles repository
+      tags: ['dotfiles']
+      git:
+        repo: git@github.com:michaelbarton/dotfiles.git
+        dest: ~/.dotfiles
+        clone: yes
+        update: yes
+
+    - name: Update OSX defaults
+      tags: ['osx']
+      ansible.builtin.include_tasks: tasks/osx_defaults.yml
+
