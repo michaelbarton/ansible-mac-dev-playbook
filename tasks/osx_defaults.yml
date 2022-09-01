@@ -20,3 +20,10 @@
     key: orientation
     type: string
     value: left
+
+- name: Holding key down generates repeated key strokes
+  community.general.osx_defaults:
+    key: ApplePressAndHoldEnabled
+    type: bool
+    value: false
+
