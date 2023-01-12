@@ -1,3 +1,9 @@
+## 2023-01-12
+
+- Fix java installation.
+- Add sublime text.
+- Add github CI.
+
 ## 2022-08-23
 
 - Use osx defaults module to set iterm preferences.
