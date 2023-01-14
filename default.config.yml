@@ -59,6 +59,7 @@ homebrew_cask_apps:
   - rectangle
   - signal
   - spotify
+  - sublime-text
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
