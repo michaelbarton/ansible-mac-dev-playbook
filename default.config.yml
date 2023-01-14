@@ -55,6 +55,7 @@ homebrew_cask_apps:
   - font-fira-sans-extra-condensed
   - font-inconsolata-dz-for-powerline
   - font-raleway
+  - freedom
   - iterm2
   - pycharm-ce
   - rectangle
