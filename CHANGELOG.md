@@ -1,3 +1,7 @@
+## 2023-01-14
+
+- Add freedom and basictex to casks.
+
 ## 2022-08-23
 
 - Use osx defaults module to set iterm preferences.
