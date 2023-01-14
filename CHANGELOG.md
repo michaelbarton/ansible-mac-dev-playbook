@@ -1,3 +1,7 @@
+## 2023-01-14
+
+- Add freedom and basictex to casks.
+
 ## 2023-01-12
 
 - Fix java installation.
