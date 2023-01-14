@@ -5,3 +5,7 @@ fmt:
 
 fmt_check:
 	${DOCKER} prettier npx prettier --check *.md **/*.yml
+
+build:
+	docker-compose build
+

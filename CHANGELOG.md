@@ -1,7 +1,12 @@
 ## 2023-01-14
 
 - Add freedom and basictex to casks.
-- Add github action CI.
+
+## 2023-01-12
+
+- Fix java installation.
+- Add sublime text.
+- Add github CI.
 
 ## 2022-08-23
 

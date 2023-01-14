@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 name: Unit and feature tests
+=======
+name: Formatting checks
+>>>>>>> @{-1}
 
 on: [push]
 
@@ -14,8 +18,8 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Build docker image
-        run: docker-compose build
+      - name: Build docker images
+        run: make build
 
       - name: Run format checks
         run: make fmt_check
