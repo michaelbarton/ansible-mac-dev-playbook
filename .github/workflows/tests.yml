@@ -1,0 +1,21 @@
+name: Unit and feature tests
+
+on: [push]
+
+env:
+  TERM: xterm
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Build docker image
+        run: docker-compose build
+
+      - name: Run format checks
+        run: make fmt_check
