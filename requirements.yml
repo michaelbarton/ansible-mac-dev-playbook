@@ -3,4 +3,7 @@ roles: []
 
 collections:
   - name: geerlingguy.mac
+    version: 1.5.0
   - name: community.general
+    version: 3.8.0
+
