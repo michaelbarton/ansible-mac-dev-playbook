@@ -4,8 +4,7 @@
     domain: com.googlecode.iterm2
     key: PrefsCustomFolder
     type: string
-    # Should be path to the folder containing the file, not the file
-    value: ~/.dotfiles/iterm2/
+    value: "{{ ansible_env.HOME }}/.dotfiles/iterm2/"
 
 - name: Enable iTerm config preferences
   community.general.osx_defaults:
@@ -14,7 +13,7 @@
     type: bool
     value: true
 
-- name: Set dock position
+- name: Configure Dock settings
   community.general.osx_defaults:
     domain: com.apple.dock
     key: orientation

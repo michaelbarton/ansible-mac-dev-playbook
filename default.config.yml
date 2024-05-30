@@ -1,5 +1,5 @@
 ---
-downloads: ~/.ansible-downloads/
+downloads: "{{ ansible_env.HOME }}/.ansible-downloads"
 
 homebrew_installed_packages:
   - asdf
@@ -8,15 +8,18 @@ homebrew_installed_packages:
   - bat
   - cmake
   - coreutils
+  - difftastic
   - docker
   - docker-compose
   - dockutil
-  - exa
+  - eza
   - fd
   - ffmpeg
   - fish
   - fzf
   - gh
+  - git-lfs
+  - hammerspoon
   - htop
   - java
   - jq
@@ -41,10 +44,10 @@ homebrew_installed_packages:
   - w3m
   - wget
   - zopfli
+  - zoxide
 homebrew_cask_apps:
-  - cleanmymac
+  - db-browser-for-sqlite
   - dropbox
-  - evernote
   - font-fira-code
   - font-fira-code-nerd-font
   - font-fira-mono
@@ -58,13 +61,9 @@ homebrew_cask_apps:
   - freedom
   - iterm2
   - pycharm-ce
-  - rectangle
-  - signal
   - spotify
   - sublime-text
 homebrew_taps:
-  - homebrew/core
-  - homebrew/cask
   - homebrew/cask-fonts
 homebrew_cask_appdir: /Applications
 homebrew_upgrade_all_packages: true

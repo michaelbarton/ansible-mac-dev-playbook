@@ -1,0 +1,52 @@
+# File: osx_defaults.yml
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - default.config.yml
+  roles:
+    - geerlingguy.mac.homebrew
+    - geerlingguy.mac.dock
+  tasks:
+    - name: Clone dotfiles repository
+      tags: ['dotfiles']
+      git:
+        repo: git@github.com:michaelbarton/dotfiles.git
+        dest: "{{ ansible_env.HOME }}/.dotfiles"
+        update: yes
+
+    - name: Update OSX defaults
+      tags: ['osx']
+      include_tasks: tasks/osx_defaults.yml
+
+    - name: Check if Homebrew directory exists and is not empty
+      tags: ['homebrew']
+      stat:
+        path: /opt/homebrew
+      register: homebrew_dir
+
+    - name: Ensure Homebrew is installed
+      tags: ['homebrew']
+      block:
+        - name: Clone Homebrew repository
+          git:
+            repo: https://github.com/Homebrew/brew
+            dest: /opt/homebrew
+            version: master
+          when: homebrew_dir.exists == false or homebrew_dir.isdir == false or homebrew_dir.size == 0
+
+        - name: Run Homebrew install script
+          shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          args:
+            creates: /opt/homebrew/bin/brew
+          when: homebrew_dir.exists == false or homebrew_dir.isdir == false or homebrew_dir.size == 0
+
+    - name: Link homebrew dependencies
+      tags: ['homebrew']
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        state: link
+      loop:
+        - { src: "/opt/homebrew/opt/openjdk/libexec/openjdk.jdk", dest: "/Library/Java/JavaVirtualMachines/openjdk.jdk" }
+
