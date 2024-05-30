@@ -7,15 +7,18 @@ homebrew_installed_packages:
   - bat
   - cmake
   - coreutils
+  - difftastic
   - docker
   - docker-compose
   - dockutil
-  - exa
+  - eza
   - fd
   - ffmpeg
   - fish
   - fzf
   - gh
+  - git-lfs
+  - hammerspoon
   - htop
   - java
   - jq
@@ -40,8 +43,10 @@ homebrew_installed_packages:
   - w3m
   - wget
   - zopfli
+  - zoxide
 homebrew_cask_apps:
   - cleanmymac
+  - db-browser-for-sqlite
   - dropbox
   - evernote
   - font-fira-code

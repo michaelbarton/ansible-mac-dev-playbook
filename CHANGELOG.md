@@ -1,3 +1,8 @@
+## 2023-06-20
+
+- Update Java install path.
+- Add difftastic, git-lfs, zoxide, and sublime text.
+
 ## 2023-01-12
 
 - Fix java installation.
