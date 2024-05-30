@@ -1,7 +1,9 @@
-## 2023-06-20
+## 2024-05-30
 
+- Refactor ansible files to make more idiomatic.
 - Update Java install path.
 - Add difftastic, git-lfs, zoxide, and sublime text.
+- Remove evernote and cleanmymac.
 
 ## 2023-01-12
 
