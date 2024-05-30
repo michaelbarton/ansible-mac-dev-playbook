@@ -4,6 +4,7 @@ downloads: "{{ ansible_env.HOME }}/.ansible-downloads"
 homebrew_installed_packages:
   - asdf
   - aspell
+  - basictex
   - bat
   - cmake
   - coreutils
@@ -57,6 +58,7 @@ homebrew_cask_apps:
   - font-fira-sans-extra-condensed
   - font-inconsolata-dz-for-powerline
   - font-raleway
+  - freedom
   - iterm2
   - pycharm-ce
   - spotify

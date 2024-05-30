@@ -17,5 +17,9 @@ jobs:
       - name: Build docker images
         run: make build
 
+<<<<<<< HEAD
       - name: Check formatting
+=======
+      - name: Run format checks
+>>>>>>> @{-1}
         run: make fmt_check
