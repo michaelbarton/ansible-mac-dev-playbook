@@ -9,21 +9,13 @@ preinstall:
 	@if ! pkgutil --pkg-info=com.apple.pkg.CLTools_Executables >/dev/null 2>&1; then \
 		echo "Installing Xcode Command Line Tools..."; \
 		softwareupdate -i "Command Line Tools for Xcode-13.0"; \
-	else \
-		echo "Xcode Command Line Tools already installed."; \
 	fi
-	
 	@if [ "$$(uname -m)" = "arm64" ]; then \
 		if ! pkgutil --pkg-info=com.apple.pkg.RosettaUpdateAuto >/dev/null 2>&1; then \
 			echo "Installing Rosetta..."; \
 			softwareupdate --install-rosetta; \
-		else \
-			echo "Rosetta already installed."; \
 		fi; \
-	else \
-		echo "System is not Apple Silicon. Skipping Rosetta installation."; \
 	fi
-
 
 fmt:
 	${DOCKER} prettier npx prettier --write *.md **/*.yml
