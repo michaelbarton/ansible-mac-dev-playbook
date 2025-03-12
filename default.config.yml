@@ -1,10 +1,12 @@
 ---
 downloads: "{{ ansible_env.HOME }}/.ansible-downloads"
 
+# Tell geerlingguy.mac.homebrew not to try installing Homebrew since it's already installed
+homebrew_install_if_missing: false
+
 homebrew_installed_packages:
-  - asdf
   - aspell
-  - basictex
+  - mactex
   - bat
   - cmake
   - coreutils
@@ -18,15 +20,14 @@ homebrew_installed_packages:
   - fish
   - fzf
   - gh
+  - ghostty
   - git-lfs
   - hammerspoon
   - htop
   - java
   - jq
   - just
-  - mutt
   - neovim
-  - offlineimap
   - openssl@3
   - parallel
   - pngcrush
@@ -35,9 +36,6 @@ homebrew_installed_packages:
   - ripgrep
   - sqlite
   - starship
-  - stow
-  - svn
-  - tmux
   - trash
   - tree
   - urlview
@@ -59,7 +57,6 @@ homebrew_cask_apps:
   - font-inconsolata-dz-for-powerline
   - font-raleway
   - freedom
-  - iterm2
   - pycharm-ce
   - spotify
   - sublime-text
@@ -92,6 +89,6 @@ dockitems_remove:
 dockitems_persist:
   - name: Spotify
     path: "/Applications/Spotify.app/"
-  - name: iTerm2
-    path: "/Applications/iTerm.app/"
+  - name: Ghostty
+    path: "/Applications/Ghostty.app/"
 

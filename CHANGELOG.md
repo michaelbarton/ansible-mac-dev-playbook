@@ -1,3 +1,12 @@
+# CHANGELOG
+
+## 2025-03-12
+
+- Use community homebrew plugin instead of geerlingguy.
+- Clean up homebrew after installs.
+- Replace iterm2 with ghostty.
+- Update list of homebrew recipes.
+
 ## 2024-05-30
 
 - Refactor ansible files to make more idiomatic.

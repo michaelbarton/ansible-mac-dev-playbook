@@ -1,0 +1,18 @@
+{
+    "sqltools.useNodeRuntime": true,
+    "terminal.integrated.automationProfile.osx": null,
+    "terminal.integrated.shellIntegration.enabled": false,
+    "terminal.integrated.profiles.linux": {
+        "fish": {
+            "path": "/opt/homebrew/bin/fish"
+        },
+    },
+    "terminal.integrated.profiles.osx": {
+        "fish": {
+            "path": "/opt/homebrew/bin/fish",
+            "args": [
+                "-l"
+            ]
+        },
+    },
+}
