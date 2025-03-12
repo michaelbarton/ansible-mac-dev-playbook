@@ -15,7 +15,7 @@
       changed_when: false
       failed_when: false
       ignore_errors: true
-      
+
     - name: Clone dotfiles repository
       tags: ['dotfiles']
       git:
@@ -40,7 +40,7 @@
       loop: "{{ homebrew_installed_packages }}"
       when: homebrew_installed_packages | length > 0
       register: brew_result
-      failed_when: 
+      failed_when:
         - brew_result is failed
         - "'already installed' not in brew_result.msg|default('')"
 
@@ -52,24 +52,10 @@
       loop: "{{ homebrew_cask_apps }}"
       when: homebrew_cask_apps | length > 0
       register: cask_result
-      failed_when: 
+      failed_when:
         - cask_result is failed
         - "'Warning: Not upgrading' not in cask_result.msg|default('')"
         - "'there is already an App' not in cask_result.msg|default('')"
-
-    - name: Clean up Homebrew (remove outdated packages and casks)
-      tags: ['homebrew', 'cleanup']
-      community.general.homebrew:
-        update_homebrew: true
-        upgrade_all: true
-      register: cleanup_result
-      changed_when: cleanup_result.changed
-
-    - name: Run brew cleanup to remove outdated packages
-      tags: ['homebrew', 'cleanup']
-      ansible.builtin.command: brew cleanup
-      register: brew_cleanup
-      changed_when: brew_cleanup.stdout != ""
 
     - name: Link homebrew dependencies
       tags: ['homebrew']
@@ -87,4 +73,18 @@
     - name: Configure Dock
       include_role:
         name: geerlingguy.mac.dock
-    
+
+    - name: Clean up Homebrew (remove outdated packages and casks)
+      tags: ['homebrew', 'cleanup']
+      community.general.homebrew:
+        update_homebrew: true
+        upgrade_all: true
+      register: cleanup_result
+      changed_when: cleanup_result.changed
+
+    - name: Run brew cleanup to remove outdated packages
+      tags: ['homebrew', 'cleanup']
+      ansible.builtin.command: brew cleanup
+      register: brew_cleanup
+      changed_when: brew_cleanup.stdout != ""
+
