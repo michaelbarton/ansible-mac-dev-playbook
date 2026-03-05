@@ -25,10 +25,9 @@
     - name: Check for local modifications in dotfiles repository # noqa: command-instead-of-module
       tags: ["dotfiles"]
       ansible.builtin.command:
-        cmd: git -C {{ ansible_env.HOME }}/.dotfiles diff --quiet
+        cmd: git -C {{ ansible_env.HOME }}/.dotfiles status --porcelain
       register: dotfiles_status
       changed_when: false
-      failed_when: false
       when: dotfiles_dir.stat.exists
 
     - name: Update dotfiles repository # noqa: latest[git]
@@ -37,7 +36,7 @@
         repo: git@github.com:michaelbarton/dotfiles.git
         dest: "{{ ansible_env.HOME }}/.dotfiles"
         update: true
-      when: dotfiles_dir.stat.exists and dotfiles_status.rc == 0
+      when: dotfiles_dir.stat.exists and dotfiles_status.stdout == ""
 
     - name: Ensure configured Homebrew taps are tapped
       tags: ["homebrew"]

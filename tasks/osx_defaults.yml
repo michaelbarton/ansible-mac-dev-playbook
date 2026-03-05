@@ -6,6 +6,7 @@
     key: orientation
     type: string
     value: left
+  register: dock_defaults
 
 # Keyboard
 - name: Enable key repeat instead of press-and-hold
@@ -33,12 +34,14 @@
     key: AppleShowAllFiles
     type: bool
     value: true
+  register: finder_defaults_1
 
 - name: Show all file extensions in Finder
   community.general.osx_defaults:
     key: AppleShowAllExtensions
     type: bool
     value: true
+  register: finder_defaults_2
 
 - name: Show path bar in Finder
   community.general.osx_defaults:
@@ -46,6 +49,7 @@
     key: ShowPathbar
     type: bool
     value: true
+  register: finder_defaults_3
 
 - name: Use list view as default Finder style
   community.general.osx_defaults:
@@ -53,8 +57,15 @@
     key: FXPreferredViewStyle
     type: string
     value: Nlsv
+  register: finder_defaults_4
 
 # Screenshots
+- name: Create Screenshots directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/Screenshots"
+    state: directory
+    mode: "0755"
+
 - name: Save screenshots to ~/Screenshots
   community.general.osx_defaults:
     domain: com.apple.screencapture
@@ -82,3 +93,14 @@
     key: NSAutomaticSpellingCorrectionEnabled
     type: bool
     value: false
+
+# Restart affected apps to apply changes
+- name: Restart Dock to apply defaults # noqa: no-changed-when
+  ansible.builtin.command: killall Dock
+  when: dock_defaults.changed
+
+- name: Restart Finder to apply defaults # noqa: no-changed-when
+  ansible.builtin.command: killall Finder
+  when: >
+    finder_defaults_1.changed or finder_defaults_2.changed or
+    finder_defaults_3.changed or finder_defaults_4.changed
