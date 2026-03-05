@@ -8,7 +8,7 @@
     homebrew_install_if_missing: false
     homebrew_check_for_updates: true
   tasks:
-    - name: Check for local modifications in dotfiles repository
+    - name: Check for local modifications in dotfiles repository # noqa: command-instead-of-module
       tags: ["dotfiles"]
       ansible.builtin.command:
         cmd: git -C {{ ansible_env.HOME }}/.dotfiles diff --quiet
@@ -16,7 +16,7 @@
       changed_when: false
       failed_when: false
 
-    - name: Clone dotfiles repository
+    - name: Clone dotfiles repository # noqa: latest[git]
       tags: ["dotfiles"]
       ansible.builtin.git:
         repo: git@github.com:michaelbarton/dotfiles.git
