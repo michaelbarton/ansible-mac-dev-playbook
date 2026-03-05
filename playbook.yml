@@ -81,6 +81,7 @@
       tags: ["dock"]
       ansible.builtin.include_role:
         name: geerlingguy.mac.dock
+      when: configure_dock | default(true)
 
     - name: Upgrade all Homebrew packages
       tags: ["homebrew", "cleanup"]
