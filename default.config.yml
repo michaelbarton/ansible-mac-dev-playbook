@@ -1,12 +1,6 @@
 ---
-downloads: "{{ ansible_env.HOME }}/.ansible-downloads"
-
-# Tell geerlingguy.mac.homebrew not to try installing Homebrew since it's already installed
-homebrew_install_if_missing: false
-
 homebrew_installed_packages:
   - aspell
-  - mactex
   - bat
   - cmake
   - coreutils
@@ -20,9 +14,7 @@ homebrew_installed_packages:
   - fish
   - fzf
   - gh
-  - ghostty
   - git-lfs
-  - hammerspoon
   - htop
   - java
   - jq
@@ -57,13 +49,13 @@ homebrew_cask_apps:
   - font-inconsolata-dz-for-powerline
   - font-raleway
   - freedom
+  - ghostty
+  - hammerspoon
+  - mactex
   - pycharm-ce
   - spotify
   - sublime-text
-homebrew_taps:
-  - homebrew/cask-fonts
-homebrew_cask_appdir: /Applications
-homebrew_upgrade_all_packages: true
+homebrew_taps: []
 
 configure_dock: true
 dockitems_remove:
@@ -91,4 +83,3 @@ dockitems_persist:
     path: "/Applications/Spotify.app/"
   - name: Ghostty
     path: "/Applications/Ghostty.app/"
-

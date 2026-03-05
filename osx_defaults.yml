@@ -4,28 +4,27 @@
   vars_files:
     - default.config.yml
   vars:
-    # Skip Homebrew installation as it's already installed
     homebrew_install_if_missing: false
     homebrew_check_for_updates: true
   tasks:
     - name: Check for local modifications in dotfiles repository
-      tags: ['dotfiles']
-      shell: git -C {{ ansible_env.HOME }}/.dotfiles diff --quiet || echo "has_changes"
+      tags: ["dotfiles"]
+      ansible.builtin.shell:
+        cmd: git -C {{ ansible_env.HOME }}/.dotfiles diff --quiet || echo "has_changes"
       register: dotfiles_status
       changed_when: false
       failed_when: false
-      ignore_errors: true
 
     - name: Clone dotfiles repository
-      tags: ['dotfiles']
-      git:
+      tags: ["dotfiles"]
+      ansible.builtin.git:
         repo: git@github.com:michaelbarton/dotfiles.git
         dest: "{{ ansible_env.HOME }}/.dotfiles"
-        update: yes
+        update: true
       when: dotfiles_status.stdout is not defined or dotfiles_status.stdout != "has_changes"
 
     - name: Ensure configured Homebrew taps are tapped
-      tags: ['homebrew']
+      tags: ["homebrew"]
       community.general.homebrew_tap:
         name: "{{ item }}"
         state: present
@@ -33,58 +32,48 @@
       when: homebrew_taps | length > 0
 
     - name: Install Homebrew packages
-      tags: ['homebrew']
+      tags: ["homebrew"]
       community.general.homebrew:
         name: "{{ item }}"
         state: present
       loop: "{{ homebrew_installed_packages }}"
       when: homebrew_installed_packages | length > 0
-      register: brew_result
-      failed_when:
-        - brew_result is failed
-        - "'already installed' not in brew_result.msg|default('')"
 
     - name: Install Homebrew cask applications
-      tags: ['homebrew']
+      tags: ["homebrew"]
       community.general.homebrew_cask:
         name: "{{ item }}"
         state: present
       loop: "{{ homebrew_cask_apps }}"
       when: homebrew_cask_apps | length > 0
-      register: cask_result
-      failed_when:
-        - cask_result is failed
-        - "'Warning: Not upgrading' not in cask_result.msg|default('')"
-        - "'there is already an App' not in cask_result.msg|default('')"
 
     - name: Link homebrew dependencies
-      tags: ['homebrew']
-      file:
-        src: "{{ item.src }}"
-        dest: "{{ item.dest }}"
+      tags: ["homebrew"]
+      become: true
+      ansible.builtin.file:
+        src: "{{ homebrew_prefix }}/opt/openjdk/libexec/openjdk.jdk"
+        dest: "/Library/Java/JavaVirtualMachines/openjdk.jdk"
         state: link
-      loop:
-        - { src: "/opt/homebrew/opt/openjdk/libexec/openjdk.jdk", dest: "/Library/Java/JavaVirtualMachines/openjdk.jdk" }
+      vars:
+        homebrew_prefix: "{{ '/opt/homebrew' if ansible_machine == 'arm64' else '/usr/local' }}"
 
-    - name: Update OSX defaults
-      tags: ['osx']
+    - name: Update macOS defaults
+      tags: ["osx"]
       include_tasks: tasks/osx_defaults.yml
 
     - name: Configure Dock
+      tags: ["dock"]
       include_role:
         name: geerlingguy.mac.dock
 
-    - name: Clean up Homebrew (remove outdated packages and casks)
-      tags: ['homebrew', 'cleanup']
+    - name: Upgrade all Homebrew packages
+      tags: ["homebrew", "cleanup"]
       community.general.homebrew:
         update_homebrew: true
         upgrade_all: true
-      register: cleanup_result
-      changed_when: cleanup_result.changed
 
-    - name: Run brew cleanup to remove outdated packages
-      tags: ['homebrew', 'cleanup']
+    - name: Remove outdated Homebrew package versions
+      tags: ["homebrew", "cleanup"]
       ansible.builtin.command: brew cleanup
       register: brew_cleanup
       changed_when: brew_cleanup.stdout != ""
-

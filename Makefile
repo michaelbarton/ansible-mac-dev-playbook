@@ -6,9 +6,9 @@ install: preinstall
 
 # Check and install prerequisites (Xcode CLI tools and Rosetta if needed)
 preinstall:
-	@if ! pkgutil --pkg-info=com.apple.pkg.CLTools_Executables >/dev/null 2>&1; then \
+	@if ! xcode-select -p >/dev/null 2>&1; then \
 		echo "Installing Xcode Command Line Tools..."; \
-		softwareupdate -i "Command Line Tools for Xcode-13.0"; \
+		xcode-select --install; \
 	fi
 	@if [ "$$(uname -m)" = "arm64" ]; then \
 		if ! pkgutil --pkg-info=com.apple.pkg.RosettaUpdateAuto >/dev/null 2>&1; then \
@@ -16,6 +16,10 @@ preinstall:
 			softwareupdate --install-rosetta; \
 		fi; \
 	fi
+
+lint:
+	uv run ansible-lint osx_defaults.yml
+	uv run ansible-playbook osx_defaults.yml --syntax-check
 
 fmt:
 	${DOCKER} prettier npx prettier --write *.md **/*.yml
@@ -25,4 +29,3 @@ fmt_check:
 
 build:
 	docker-compose build
-
