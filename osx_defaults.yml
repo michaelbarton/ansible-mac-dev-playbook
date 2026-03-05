@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Provision macOS development environment
+  hosts: localhost
   connection: local
   vars_files:
     - default.config.yml
@@ -9,8 +10,8 @@
   tasks:
     - name: Check for local modifications in dotfiles repository
       tags: ["dotfiles"]
-      ansible.builtin.shell:
-        cmd: git -C {{ ansible_env.HOME }}/.dotfiles diff --quiet || echo "has_changes"
+      ansible.builtin.command:
+        cmd: git -C {{ ansible_env.HOME }}/.dotfiles diff --quiet
       register: dotfiles_status
       changed_when: false
       failed_when: false
@@ -21,7 +22,7 @@
         repo: git@github.com:michaelbarton/dotfiles.git
         dest: "{{ ansible_env.HOME }}/.dotfiles"
         update: true
-      when: dotfiles_status.stdout is not defined or dotfiles_status.stdout != "has_changes"
+      when: dotfiles_status.rc is not defined or dotfiles_status.rc == 0
 
     - name: Ensure configured Homebrew taps are tapped
       tags: ["homebrew"]
@@ -59,11 +60,11 @@
 
     - name: Update macOS defaults
       tags: ["osx"]
-      include_tasks: tasks/osx_defaults.yml
+      ansible.builtin.include_tasks: tasks/osx_defaults.yml
 
     - name: Configure Dock
       tags: ["dock"]
-      include_role:
+      ansible.builtin.include_role:
         name: geerlingguy.mac.dock
 
     - name: Upgrade all Homebrew packages
