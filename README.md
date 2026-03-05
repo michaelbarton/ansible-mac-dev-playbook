@@ -13,13 +13,14 @@ Provision and set up a new Mac computer using ansible.
 
 Run the commands:
 
-- ./bin/bootstrap
-- ./bin/apply
+```console
+make install
+```
 
-The first will install ansible on the system. Then the second will execute the ansible playbook. A specific commands can be run with `--tags`.
+This will install prerequisites (Xcode CLI tools, Rosetta on Apple Silicon), fetch Ansible dependencies, and run the playbook. Specific tasks can be run with `--tags`:
 
 ```console
-./bin/apply --tags osx
+uv run ansible-playbook osx_defaults.yml --tags osx --ask-become-pass
 ```
 
 ## Links

@@ -1,4 +1,4 @@
-name: Formatting checks
+name: CI
 
 on: [push]
 
@@ -6,16 +6,42 @@ env:
   TERM: xterm
 
 jobs:
-  test:
+  formatting:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v4
 
       - name: Build docker images
-        run: make build
+        run: docker compose build
 
       - name: Run format checks
-        run: make fmt_check
+        run: docker compose run --rm prettier npx prettier --check *.md **/*.yml
+
+  lint:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install Ansible and ansible-lint
+        run: |
+          uv venv .venv
+          source .venv/bin/activate
+          uv pip install ansible ansible-lint
+
+      - name: Install Ansible Galaxy requirements
+        run: |
+          source .venv/bin/activate
+          ansible-galaxy install -r requirements.yml
+
+      - name: Run ansible-lint
+        run: |
+          source .venv/bin/activate
+          ansible-lint osx_defaults.yml
+
+      - name: Run syntax check
+        run: |
+          source .venv/bin/activate
+          ansible-playbook osx_defaults.yml --syntax-check
