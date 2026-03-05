@@ -1,4 +1,4 @@
-DOCKER = docker-compose run --rm
+DOCKER = docker compose run --rm
 
 install: preinstall
 	ansible-galaxy install -r requirements.yml
@@ -28,4 +28,4 @@ fmt_check:
 	${DOCKER} prettier npx prettier --check *.md **/*.yml
 
 build:
-	docker-compose build
+	docker compose build

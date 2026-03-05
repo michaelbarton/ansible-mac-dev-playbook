@@ -12,10 +12,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build docker images
-        run: make build
+        run: docker compose build
 
       - name: Run format checks
-        run: make fmt_check
+        run: docker compose run --rm prettier npx prettier --check *.md **/*.yml
 
   lint:
     runs-on: macos-latest
@@ -26,13 +26,22 @@ jobs:
         uses: astral-sh/setup-uv@v4
 
       - name: Install Ansible and ansible-lint
-        run: uv pip install --system ansible ansible-lint
+        run: |
+          uv venv .venv
+          source .venv/bin/activate
+          uv pip install ansible ansible-lint
 
       - name: Install Ansible Galaxy requirements
-        run: ansible-galaxy install -r requirements.yml
+        run: |
+          source .venv/bin/activate
+          ansible-galaxy install -r requirements.yml
 
       - name: Run ansible-lint
-        run: ansible-lint osx_defaults.yml
+        run: |
+          source .venv/bin/activate
+          ansible-lint osx_defaults.yml
 
       - name: Run syntax check
-        run: ansible-playbook osx_defaults.yml --syntax-check
+        run: |
+          source .venv/bin/activate
+          ansible-playbook osx_defaults.yml --syntax-check
