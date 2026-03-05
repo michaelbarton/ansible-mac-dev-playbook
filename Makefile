@@ -2,7 +2,7 @@ DOCKER = docker compose run --rm
 
 install: preinstall
 	ansible-galaxy install -r requirements.yml
-	uv run ansible-playbook -i "localhost," -c local osx_defaults.yml --ask-become-pass
+	uv run ansible-playbook -i "localhost," -c local playbook.yml --ask-become-pass
 
 # Check and install prerequisites (Xcode CLI tools and Rosetta if needed)
 preinstall:
@@ -18,8 +18,8 @@ preinstall:
 	fi
 
 lint:
-	uv run ansible-lint osx_defaults.yml
-	uv run ansible-playbook osx_defaults.yml --syntax-check
+	uv run ansible-lint playbook.yml
+	uv run ansible-playbook playbook.yml --syntax-check
 
 fmt:
 	${DOCKER} prettier npx prettier --write *.md **/*.yml

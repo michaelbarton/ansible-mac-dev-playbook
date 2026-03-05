@@ -78,6 +78,7 @@ dockitems_remove:
   - Pages
   - App Store
   - Music
+# Items are removed first then re-added with an explicit path to control ordering
 dockitems_persist:
   - name: Spotify
     path: "/Applications/Spotify.app/"

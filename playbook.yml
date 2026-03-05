@@ -8,6 +8,20 @@
     homebrew_install_if_missing: false
     homebrew_check_for_updates: true
   tasks:
+    - name: Check if dotfiles repository exists
+      tags: ["dotfiles"]
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.dotfiles"
+      register: dotfiles_dir
+
+    - name: Clone dotfiles repository # noqa: latest[git]
+      tags: ["dotfiles"]
+      ansible.builtin.git:
+        repo: git@github.com:michaelbarton/dotfiles.git
+        dest: "{{ ansible_env.HOME }}/.dotfiles"
+        update: false
+      when: not dotfiles_dir.stat.exists
+
     - name: Check for local modifications in dotfiles repository # noqa: command-instead-of-module
       tags: ["dotfiles"]
       ansible.builtin.command:
@@ -15,14 +29,15 @@
       register: dotfiles_status
       changed_when: false
       failed_when: false
+      when: dotfiles_dir.stat.exists
 
-    - name: Clone dotfiles repository # noqa: latest[git]
+    - name: Update dotfiles repository # noqa: latest[git]
       tags: ["dotfiles"]
       ansible.builtin.git:
         repo: git@github.com:michaelbarton/dotfiles.git
         dest: "{{ ansible_env.HOME }}/.dotfiles"
         update: true
-      when: dotfiles_status.rc is not defined or dotfiles_status.rc == 0
+      when: dotfiles_dir.stat.exists and dotfiles_status.rc == 0
 
     - name: Ensure configured Homebrew taps are tapped
       tags: ["homebrew"]
@@ -48,7 +63,7 @@
       loop: "{{ homebrew_cask_apps }}"
       when: homebrew_cask_apps | length > 0
 
-    - name: Link homebrew dependencies
+    - name: Link homebrew Java installation
       tags: ["homebrew"]
       become: true
       ansible.builtin.file:
@@ -57,6 +72,7 @@
         state: link
       vars:
         homebrew_prefix: "{{ '/opt/homebrew' if ansible_machine == 'arm64' else '/usr/local' }}"
+      when: "'java' in homebrew_installed_packages"
 
     - name: Update macOS defaults
       tags: ["osx"]
@@ -72,9 +88,11 @@
       community.general.homebrew:
         update_homebrew: true
         upgrade_all: true
+      when: homebrew_upgrade | default(false)
 
     - name: Remove outdated Homebrew package versions
       tags: ["homebrew", "cleanup"]
       ansible.builtin.command: brew cleanup
       register: brew_cleanup
       changed_when: brew_cleanup.stdout != ""
+      when: homebrew_upgrade | default(false)

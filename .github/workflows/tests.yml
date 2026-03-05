@@ -39,9 +39,9 @@ jobs:
       - name: Run ansible-lint
         run: |
           source .venv/bin/activate
-          ansible-lint osx_defaults.yml
+          ansible-lint playbook.yml
 
       - name: Run syntax check
         run: |
           source .venv/bin/activate
-          ansible-playbook osx_defaults.yml --syntax-check
+          ansible-playbook playbook.yml --syntax-check

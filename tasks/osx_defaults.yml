@@ -1,13 +1,84 @@
 ---
-- name: Configure Dock settings
+# Dock
+- name: Set Dock orientation to left
   community.general.osx_defaults:
     domain: com.apple.dock
     key: orientation
     type: string
     value: left
 
-- name: Holding key down generates repeated key strokes
+# Keyboard
+- name: Enable key repeat instead of press-and-hold
   community.general.osx_defaults:
     key: ApplePressAndHoldEnabled
+    type: bool
+    value: false
+
+- name: Set fast key repeat rate
+  community.general.osx_defaults:
+    key: KeyRepeat
+    type: int
+    value: 2
+
+- name: Set short delay until key repeat
+  community.general.osx_defaults:
+    key: InitialKeyRepeat
+    type: int
+    value: 15
+
+# Finder
+- name: Show hidden files in Finder
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: AppleShowAllFiles
+    type: bool
+    value: true
+
+- name: Show all file extensions in Finder
+  community.general.osx_defaults:
+    key: AppleShowAllExtensions
+    type: bool
+    value: true
+
+- name: Show path bar in Finder
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowPathbar
+    type: bool
+    value: true
+
+- name: Use list view as default Finder style
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXPreferredViewStyle
+    type: string
+    value: Nlsv
+
+# Screenshots
+- name: Save screenshots to ~/Screenshots
+  community.general.osx_defaults:
+    domain: com.apple.screencapture
+    key: location
+    type: string
+    value: "{{ ansible_env.HOME }}/Screenshots"
+
+- name: Disable screenshot shadow
+  community.general.osx_defaults:
+    domain: com.apple.screencapture
+    key: disable-shadow
+    type: bool
+    value: true
+
+# Misc
+- name: Disable Gatekeeper "Are you sure you want to open this application?" dialog
+  community.general.osx_defaults:
+    domain: com.apple.LaunchServices
+    key: LSQuarantine
+    type: bool
+    value: false
+
+- name: Disable auto-correct
+  community.general.osx_defaults:
+    key: NSAutomaticSpellingCorrectionEnabled
     type: bool
     value: false

@@ -17,10 +17,38 @@ Run the commands:
 make install
 ```
 
-This will install prerequisites (Xcode CLI tools, Rosetta on Apple Silicon), fetch Ansible dependencies, and run the playbook. Specific tasks can be run with `--tags`:
+This will install prerequisites (Xcode CLI tools, Rosetta on Apple Silicon), fetch Ansible dependencies, and run the playbook.
+
+## Running specific tasks
+
+Specific tasks can be run with `--tags`:
 
 ```console
-uv run ansible-playbook osx_defaults.yml --tags osx --ask-become-pass
+uv run ansible-playbook playbook.yml --tags osx --ask-become-pass
+```
+
+Available tags:
+
+- `dotfiles` — Clone/update the dotfiles repository
+- `homebrew` — Install Homebrew packages and cask applications
+- `osx` — Apply macOS system defaults
+- `dock` — Configure Dock items
+- `cleanup` — Upgrade and clean up Homebrew packages (requires `-e homebrew_upgrade=true`)
+
+## Upgrading Homebrew packages
+
+Homebrew upgrade and cleanup are opt-in to keep regular runs fast:
+
+```console
+uv run ansible-playbook playbook.yml --tags cleanup -e homebrew_upgrade=true --ask-become-pass
+```
+
+## Dry run
+
+Preview changes without applying them:
+
+```console
+uv run ansible-playbook playbook.yml --check --ask-become-pass
 ```
 
 ## Links
